@@ -45,8 +45,8 @@ export const UserNFTs: FC = () => {
                             <NFTCard
                                 key={nordleNFTData.tokenId}
                                 nordleNFTData={nordleNFTData}
-                                // selectToken={selectToken}
-                                // isSelected={isSelected[nordleNFTData.tokenId]}
+                                selectToken={selectToken}
+                                isSelected={isSelected[nordleNFTData.tokenId]}
                             />
                         ))}
                         <NFTCard

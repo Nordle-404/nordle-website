@@ -42,7 +42,7 @@ const cardVariants: Variants = {
 type NFTCardProps = {
     nordleNFTData: NordleNFT;
     isSelected?: boolean;
-    selectToken?: Dispatch<SetStateAction<number>>;
+    selectToken?: (tokenId: number) => void;
     isMintButton?: boolean;
 };
 
@@ -117,10 +117,10 @@ export const NFTCard: FC<NFTCardProps> = ({
                     {!isMintButton && (
                         <motion.img
                             variants={tokenURIVariants}
-                            // initial="hidden"
-                            // whileHover="opacity-100"
+                            initial="hidden"
+                            whileHover="visible"
                             src={tokenURI}
-                            className="absolute h-full w-full opacity-10 transition hover:opacity-100"
+                            className="absolute h-full w-full"
                         />
                     )}
                     <p
