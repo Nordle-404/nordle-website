@@ -24,9 +24,9 @@ import { MediaQueryContextProvider } from '../contexts/MediaQueryContext';
 const { chains, provider } = configureChains(
     [chain.goerli],
     [
-        alchemyProvider({
-            apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID,
-        }),
+        // alchemyProvider({
+        //     apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID,
+        // }),
         publicProvider(),
     ]
 );

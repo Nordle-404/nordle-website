@@ -30,7 +30,7 @@ export const UserNFTs: FC = () => {
                 setIsSelected({ ...isSelected, [tokenId]: true });
             }
         },
-        [setSelectedTokens, selectedTokens]
+        [setSelectedTokens, selectedTokens, isSelected]
     );
 
     return (
@@ -41,7 +41,7 @@ export const UserNFTs: FC = () => {
                     <p>Loading...</p>
                 ) : (
                     <div className="grid grid-cols-4 justify-items-center gap-x-2 gap-y-10">
-                        {userTokens.map((nordleNFTData) => (
+                        {Object.values(userTokens).map((nordleNFTData) => (
                             <NFTCard
                                 key={nordleNFTData.tokenId}
                                 nordleNFTData={nordleNFTData}
@@ -55,9 +55,9 @@ export const UserNFTs: FC = () => {
                                 tokenId: -1,
                                 tokenURI: '',
                                 word: 'Mint',
-                                isSelected: false,
-                                selectToken: () => {},
                             }}
+                            isSelected={false}
+                            selectToken={() => {}}
                         />
                     </div>
                 )}

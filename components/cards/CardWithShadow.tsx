@@ -8,7 +8,7 @@ type CardWithShadowProps = {
     id?: string;
     backgroundColor?: 'off-white' | 'light-gray';
     animateWhile: 'hover' | 'inView' | 'always';
-    isSelected: boolean;
+    isSelected?: boolean;
     scale?: boolean;
     transition?: Transition;
     shadowSize?: 'large' | 'small';
