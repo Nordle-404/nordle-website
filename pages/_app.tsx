@@ -22,7 +22,7 @@ import { BasicNavbar } from '../components/Navbars/BasicNavbar';
 import { MediaQueryContextProvider } from '../contexts/MediaQueryContext';
 
 const { chains, provider } = configureChains(
-    [chain.mainnet, chain.goerli],
+    [chain.goerli],
     [
         alchemyProvider({
             apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID,
