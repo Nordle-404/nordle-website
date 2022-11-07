@@ -18,7 +18,7 @@ import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
-import { BasicNavbar } from '../components/Navbars/BasicNavbar';
+import { BasicNavbar } from '../components/navbars/BasicNavbar';
 import { MediaQueryContextProvider } from '../contexts/MediaQueryContext';
 import { NordleNFTContextProvider } from '../contexts/NordleNFTContext';
 

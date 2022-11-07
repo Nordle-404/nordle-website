@@ -1,8 +1,9 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { CardWithShadow } from '../../components/cards/CardWithShadow';
 import { NordleNFT } from '../../types/Nordle.type';
-import { motion, Variants } from 'framer-motion';
+import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { useNordleNFTContext } from '../../contexts/NordleNFTContext';
+import { BasicPopup } from '../../components/popups/BasicPopup';
 
 const tokenURIVariants: Variants = {
     hidden: {
@@ -27,10 +28,21 @@ const mintButtonVariants: Variants = {
     },
 };
 
+const cardVariants: Variants = {
+    initial: {
+        backgroundColor: 'var(--off-white)',
+        color: 'var(--off-black)',
+    },
+    hover: {
+        backgroundColor: 'var(--gray)',
+        color: 'var(--off-white)',
+    },
+};
+
 type NFTCardProps = {
     nordleNFTData: NordleNFT;
     isSelected?: boolean;
-    selectToken?: Dispatch<SetStateAction<boolean>>;
+    selectToken?: (tokenId: number) => void;
     isMintButton?: boolean;
 };
 
@@ -99,16 +111,16 @@ export const NFTCard: FC<NFTCardProps> = ({
                     onClick={
                         isMintButton
                             ? () => setShowMintPopup(true)
-                            : () => selectToken(tokenId)
+                            : () => selectToken!(tokenId)
                     }
                 >
                     {!isMintButton && (
                         <motion.img
                             variants={tokenURIVariants}
-                            // initial="hidden"
-                            // whileHover="opacity-100"
+                            initial="hidden"
+                            whileHover="visible"
                             src={tokenURI}
-                            className="absolute h-full w-full opacity-10 transition hover:opacity-100"
+                            className="absolute h-full w-full"
                         />
                     )}
                     <p

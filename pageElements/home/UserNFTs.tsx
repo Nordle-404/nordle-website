@@ -35,9 +35,7 @@ export const UserNFTs: FC = () => {
 
     return (
         <div>
-            <h2 className="mb-20 text-5xl font-bold text-[#3FC4C4] underline">
-                Your Nords
-            </h2>
+            <h2 className="mb-20 text-[#3FC4C4] text-5xl font-bold underline">Your Nords</h2>
             <div>
                 {isLoadingUserTokens ? (
                     <p>No Nords...</p>
