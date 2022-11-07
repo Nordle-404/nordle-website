@@ -2,99 +2,103 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Variable Fonts */
-@supports (font-variation-settings: normal) {
-    @font-face {
-        font-family: 'Bitter';
-        font-style: normal;
-        font-weight: 100 900;
-        font-display: swap;
-        src: url('../public/fonts/Bitter-VariableFont_wght.ttf');
-        font-named-instance: 'Regular';
-    }
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
 
-    @font-face {
-        font-family: 'Bitter';
-        font-style: italic;
-        font-weight: 100 900;
-        font-display: swap;
-        src: url('../public/fonts/Bitter-Italic-VariableFont_wght.ttf')
-            format('ttf');
-        font-named-instance: 'Italic';
-    }
-    @font-face {
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 100 900;
-        font-display: swap;
-        src: url('../public/fonts/Inter-VariableFont_slnt,wght.ttf');
-        font-named-instance: 'Regular';
-    }
+:root {
+    --floodgate: #55c5ef;
+    --floodgate-dark: #191749;
+    --off-black: #0e1111;
+    --off-white: #f3f8f9;
+    --gray: #808080;
+    --light-gray: #55c6ef27;
+    --dark-gray: #2e2e2e;
+    --error-color: #e66e6e;
 
-    @font-face {
-        font-family: 'OpenSans';
-        font-style: normal;
-        font-weight: 100 900;
-        font-display: swap;
-        src: url('../public/fonts/OpenSans-VariableFont_wdth,wght.ttf');
-        font-named-instance: 'Regular';
-    }
+    --width-clamp: clamp(300px, 90%, 1500px);
 
-    @font-face {
-        font-family: 'OpenSans';
-        font-style: italic;
-        font-weight: 100 900;
-        font-display: swap;
-        src: url('../public/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf');
-        font-named-instance: 'Italic';
-    }
+    --desktop: 1460px;
+    --laptop: 1024px;
+    --tablet: 768px;
+    --mobile: 480px;
 }
 
-/* Static Fonts */
-/* @supports not (font-variation-settings: normal) {
-    @font-face {
-        font-named-instance: Regular;
-        font-display: swap;
-        font-family: Nunito;
-        font-style: normal;
-        font-weight: 400;
-        src: url('/fonts/Nunito-Regular.woff2') format('woff2');
-    }
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a {
+    padding: 0;
+    margin: 0;
+    color: var(--off-black);
+    scroll-behavior: smooth;
+    text-decoration: none;
+    font-family: theme(fontFamily.mono);
+}
 
-    @font-face {
-        font-named-instance: Italic;
-        font-display: swap;
-        font-family: Nunito;
-        font-style: italic;
-        font-weight: 100 900;
-        src: url('/fonts/Nunito-Italic.woff2') format('woff2');
-    }
+body {
+    background-color: var(--off-white);
+}
 
-    @font-face {
-        font-named-instance: SemiBold;
-        font-display: swap;
-        font-family: Nunito;
-        font-style: semibold;
-        font-weight: 600;
-        src: url('/fonts/Nunito-SemiBold.woff2') format('woff2');
-    }
+/* --- Responsive Font Sizes */
+html {
+    font-size: 16px;
+}
 
-    @font-face {
-        font-named-instance: SemiBoldItalic;
-        font-display: swap;
-        font-family: Nunito;
-        font-style: italic;
-        font-weight: 600;
-        src: url('/fonts/Nunito-SemiBoldItalic.woff2') format('woff2');
-    }
-} */
-
-/* :root {
-    @apply antialiased font-inter;
-} */
-
-@layer base {
+@media only screen and (max-width: 1460px) {
     html {
-        @apply font-inter font-light;
+        font-size: 13px;
     }
 }
+
+@media only screen and (max-width: 1024px) {
+    html {
+        font-size: 11px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    html {
+        font-size: 10px;
+    }
+}
+
+/* --- Custom Scroll Bar --- */
+
+::-webkit-scrollbar-track {
+    border-radius: 0.125rem;
+    background-color: var(--gray);
+    height: 0.5rem;
+    margin: 0px 10px;
+}
+::-webkit-scrollbar {
+    width: 0.5rem;
+    border-radius: 0.125rem;
+    height: 0.5rem;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 0.2rem;
+    background-color: var(--dark-gray);
+    height: 0.4rem;
+}
+
+/* ---Reusable Custom Values--- */
+
+/* @layer components {
+  .title-header {
+    margin-bottom: theme(margin.20);
+    font-size: theme(fontSize.5xl);
+    font-weight: theme(fontWeight.bold);
+  }
+
+  @media only screen and (max-width: 1024px) {
+    .title-header {
+      font-size: theme(fontSize.4xl);
+      margin-bottom: theme(margin.12);
+    }
+  }
+} */

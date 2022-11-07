@@ -18,6 +18,8 @@ import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
+import { BasicNavbar } from '../components/Navbars/BasicNavbar';
+import { MediaQueryContextProvider } from '../contexts/MediaQueryContext';
 
 const { chains, provider } = configureChains(
     [chain.mainnet, chain.goerli],
@@ -56,7 +58,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
         <WagmiConfig client={wagmiClient}>
             <RainbowKitProvider chains={chains}>
-                <Component {...pageProps} />
+                <MediaQueryContextProvider>
+                    <BasicNavbar />
+                    <Component {...pageProps} />
+                </MediaQueryContextProvider>
             </RainbowKitProvider>
         </WagmiConfig>
     );
