@@ -68,7 +68,7 @@ export const CombineNFTs: FC = () => {
                 </div>
             )} */}
             <div className="mt-20">
-                <h2 className="mb-4 text-5xl font-bold underline">Combine Nords</h2>
+                <h2 className="mb-4 text-[#3FC4C4] text-5xl font-bold underline">Combine Nords</h2>
                 <h2 className="mb-12 text-1xl font-bold text-red-300">Nords will be combined in the sequence they are selected.</h2>
                 <div className="mb-4">
                     {isLoadingUserTokens ? (

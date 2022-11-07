@@ -7,6 +7,7 @@ import {
     useEffect,
     useCallback,
     useState,
+    useMemo,
 } from 'react';
 import {
     useAccount,
@@ -53,12 +54,12 @@ export const NordleNFTContextProvider = ({
 }) => {
     const { address } = useAccount();
 
-    const NordleContractConfig: WagmiContractConfig = {
+    const NordleContractConfig = useMemo(() => ({
         address: NORDLE_CONTRACT_ADDRESS,
         abi: NordleArtifact.abi,
         args: [address],
         functionName: '',
-    };
+    } as WagmiContractConfig), [address]);
 
     const {
         data: rawWagmiAllUserTokenIdsData,
@@ -140,7 +141,7 @@ export const NordleNFTContextProvider = ({
             }
             setWagmiTokenDataContractsInfo([...newWagmiTokenDataContractsInfo]);
         }
-    }, [isLoadingUserTokenIds, rawWagmiAllUserTokenIdsData]);
+    }, [isLoadingUserTokenIds, rawWagmiAllUserTokenIdsData, NordleContractConfig]);
 
     // Enable to contract reads to fetch the token data
     useEffect(() => {
@@ -170,7 +171,7 @@ export const NordleNFTContextProvider = ({
             setUserTokens(newUserTokenData);
             setIsLoadingUserTokens(false);
         }
-    }, [rawWagmiTokenData]);
+    }, [rawWagmiTokenData, userTokenIds]); // no need for userTokens
 
     const { config: mintRandomWordConfig } = usePrepareContractWrite({
         address: NORDLE_CONTRACT_ADDRESS,
@@ -183,7 +184,7 @@ export const NordleNFTContextProvider = ({
                 type: 'function',
             },
         ],
-        overrides: { gasLimit: BigNumber.from(2_000_000) },
+        overrides: { gasLimit: BigNumber.from(700_000) },
         functionName: 'requestCreateWord',
     });
 
@@ -211,7 +212,7 @@ export const NordleNFTContextProvider = ({
             },
         ],
         args: [selectedTokens.map(BigNumber.from)],
-        overrides: { gasLimit: BigNumber.from(2_000_000) },
+        overrides: { gasLimit: BigNumber.from(800_000) },
         functionName: 'requestCombine',
     });
 
