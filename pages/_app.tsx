@@ -20,6 +20,7 @@ import { publicProvider } from 'wagmi/providers/public';
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 import { BasicNavbar } from '../components/navbars/BasicNavbar';
 import { MediaQueryContextProvider } from '../contexts/MediaQueryContext';
+import { NordleNFTContextProvider } from '../contexts/NordleNFTContext';
 
 const { chains, provider } = configureChains(
     [chain.goerli],
@@ -58,10 +59,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
         <WagmiConfig client={wagmiClient}>
             <RainbowKitProvider chains={chains}>
-                <MediaQueryContextProvider>
-                    <BasicNavbar />
-                    <Component {...pageProps} />
-                </MediaQueryContextProvider>
+                <NordleNFTContextProvider>
+                    <MediaQueryContextProvider>
+                        <BasicNavbar />
+                        <Component {...pageProps} />
+                    </MediaQueryContextProvider>
+                </NordleNFTContextProvider>
             </RainbowKitProvider>
         </WagmiConfig>
     );

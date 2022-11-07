@@ -38,7 +38,7 @@ export const UserNFTs: FC = () => {
             <h2 className="mb-20 text-[#3FC4C4] text-5xl font-bold underline">Your Nords</h2>
             <div>
                 {isLoadingUserTokens ? (
-                    <p>Loading...</p>
+                    <p>No Nords...</p>
                 ) : (
                     <div className="grid grid-cols-4 justify-items-center gap-x-2 gap-y-10">
                         {Object.values(userTokens).map((nordleNFTData) => (

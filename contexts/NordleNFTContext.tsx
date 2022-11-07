@@ -96,7 +96,17 @@ export const NordleNFTContextProvider = ({
 
     // Once the data is read from the contract, filter out the burned tokens
     useEffect(() => {
-        if (!isLoadingUserTokenIds && rawWagmiAllUserTokenIdsData) {
+        if (
+            !isLoadingUserTokenIds &&
+            rawWagmiAllUserTokenIdsData?.length == 2
+        ) {
+            if (
+                !rawWagmiAllUserTokenIdsData[0] ||
+                !rawWagmiAllUserTokenIdsData[1]
+            ) {
+                setIsLoadingUserTokens(false);
+                return;
+            }
             const allUserTokenIds = (
                 rawWagmiAllUserTokenIdsData[0] as BigNumber[]
             ).map((bnTokenId) => bnTokenId.toNumber());
