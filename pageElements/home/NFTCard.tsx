@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import { CardWithShadow } from '../../components/cards/CardWithShadow';
 import { NordleNFT } from '../../types/Nordle.type';
-import { motion, Variants } from 'framer-motion';
+import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { useNordleNFTContext } from '../../contexts/NordleNFTContext';
 import { BasicPopup } from '../../components/popups/BasicPopup';
 
@@ -59,40 +59,47 @@ export const NFTCard: FC<NFTCardProps> = ({
 
     return (
         <>
-            {showMintPopup && (
-                <BasicPopup
-                    isCloseDisabled={isLoadingMintRandomWord}
-                    handleClose={() => setShowMintPopup(false)}
-                >
-                    <>
-                        <p className="mb-10 text-5xl">Random New Word</p>
-                        {mintTxHash && (
-                            <p className="mb-5 text-xl">
-                                Tx:{' '}
-                                <a
-                                    href={`https://goerli.etherscan.io/tx/${mintTxHash}`}
-                                    target="_blank"
-                                    rel="no_referrer"
-                                    className="font-semibold underline"
-                                >
-                                    [{mintTxHash.slice(0, 4)}...
-                                    {mintTxHash.slice(mintTxHash.length - 4)}]
-                                </a>
-                            </p>
-                        )}
-                        <motion.button
-                            variants={mintButtonVariants}
-                            disabled={!handleMintRandomWord}
-                            initial="initial"
-                            whileHover="hover"
-                            className="w-full bg-off-black py-5 px-10 text-3xl text-off-white"
-                            onClick={handleMintRandomWord}
-                        >
-                            {isLoadingMintRandomWord ? 'Minting...' : 'Mint'}
-                        </motion.button>
-                    </>
-                </BasicPopup>
-            )}
+            <AnimatePresence>
+                {showMintPopup && (
+                    <BasicPopup
+                        isCloseDisabled={isLoadingMintRandomWord}
+                        handleClose={() => setShowMintPopup(false)}
+                    >
+                        <>
+                            <p className="mb-10 text-5xl">Random New Word</p>
+                            {mintTxHash && (
+                                <p className="mb-5 text-xl">
+                                    Tx:{' '}
+                                    <a
+                                        href={`https://goerli.etherscan.io/tx/${mintTxHash}`}
+                                        target="_blank"
+                                        rel="no_referrer"
+                                        className="font-semibold underline"
+                                    >
+                                        [{mintTxHash.slice(0, 4)}...
+                                        {mintTxHash.slice(
+                                            mintTxHash.length - 4
+                                        )}
+                                        ]
+                                    </a>
+                                </p>
+                            )}
+                            <motion.button
+                                variants={mintButtonVariants}
+                                disabled={!handleMintRandomWord}
+                                initial="initial"
+                                whileHover="hover"
+                                className="w-full bg-off-black py-5 px-10 text-3xl text-off-white"
+                                onClick={handleMintRandomWord}
+                            >
+                                {isLoadingMintRandomWord
+                                    ? 'Minting...'
+                                    : 'Mint'}
+                            </motion.button>
+                        </>
+                    </BasicPopup>
+                )}
+            </AnimatePresence>
             <CardWithShadow animateWhile="hover" isSelected={isSelected}>
                 <motion.div
                     variants={cardVariants}

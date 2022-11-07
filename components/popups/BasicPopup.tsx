@@ -1,4 +1,14 @@
 import { FC, ReactNode } from 'react';
+import { motion, Variants } from 'framer-motion';
+
+const backgroundVariants: Variants = {
+    hidden: {
+        opacity: 0,
+    },
+    visible: {
+        opacity: 1,
+    },
+};
 
 type BasicPopupProps = {
     children: ReactNode;
@@ -14,7 +24,11 @@ export const BasicPopup: FC<BasicPopupProps> = ({
     isCloseDisabled,
 }) => {
     return (
-        <div
+        <motion.div
+            variants={backgroundVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
             id={id}
             className="fixed top-0 left-0 right-0 bottom-0 z-50 flex flex-row items-center justify-center bg-black/80"
         >
@@ -28,6 +42,6 @@ export const BasicPopup: FC<BasicPopupProps> = ({
                 </button>
                 {children}
             </div>
-        </div>
+        </motion.div>
     );
 };
