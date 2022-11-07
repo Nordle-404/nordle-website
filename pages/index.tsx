@@ -20,7 +20,7 @@ const Home: NextPage = () => {
             </Head>
             <main className="flex-grow px-width-clamp py-20">
                 <UserNFTs />
-                {Object.values(userTokens).length > 2 && <CombineNFTs />}
+                <CombineNFTs />
             </main>
             <footer className="flex flex-row justify-end bg-off-black px-width-clamp pt-10 pb-5">
                 <p className="text-xl text-off-white">⚡ Jongwon x Yuma 🦎</p>
