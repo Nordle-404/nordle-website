@@ -85,12 +85,12 @@ export const NFTCard: FC<NFTCardProps> = ({
                     </div>
                 </div>
             )}
-            <CardWithShadow animateWhile="hover">
+            <CardWithShadow animateWhile="hover"  isSelected={isSelected}>
                 <div
                     className="relative  flex h-96 w-80 cursor-pointer flex-col items-center justify-center"
                     key={tokenId}
                     onClick={
-                        isMintButton ? () => setShowMintPopup(true) : undefined
+                        isMintButton ? () => setShowMintPopup(true) : selectToken(tokenId)
                     }
                 >
                     {!isMintButton && (

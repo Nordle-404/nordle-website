@@ -9,6 +9,8 @@ export interface NordleNFT {
     tokenId: number;
     tokenURI: string;
     word: string;
+    selectToken(tokenId: number): void;
+    isSelected: boolean;
 }
 
 export interface WagmiContractConfig {

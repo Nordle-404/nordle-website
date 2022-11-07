@@ -32,6 +32,8 @@ interface NordleNFTContextInterface {
     isLoadingMintRandomWord: boolean;
     isSuccessMintRandomWord: boolean;
     mintTxHash: string;
+    selectedTokens: number[];
+    setSelectedTokens: Dispatch<SetStateAction<number[]>>;
 }
 
 const NordleNFTContext = createContext<NordleNFTContextInterface | undefined>(
@@ -76,6 +78,8 @@ export const NordleNFTContextProvider = ({
     const [userTokens, setUserTokens] = useState<NordleNFT[]>([]);
     const [fetchTokenData, setFetchTokenData] = useState(false);
     const [mintTxHash, setMintTxHash] = useState('');
+
+    const [selectedTokens, setSelectedTokens] = useState<number[]>([]);
 
     const rawWagmiTokenData = useContractReads({
         contracts: wagmiTokenDataContractsInfo,
@@ -196,6 +200,8 @@ export const NordleNFTContextProvider = ({
                 isLoadingMintRandomWord,
                 isSuccessMintRandomWord,
                 mintTxHash,
+                selectedTokens,
+                setSelectedTokens,
             }}
         >
             {children}
