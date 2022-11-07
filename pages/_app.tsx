@@ -32,7 +32,7 @@ const { chains, provider } = configureChains(
 );
 
 const { wallets } = getDefaultWallets({
-    appName: 'RainbowKit App',
+    appName: 'Nordle',
     chains,
 });
 

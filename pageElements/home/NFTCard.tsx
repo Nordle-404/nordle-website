@@ -45,7 +45,7 @@ type NFTCardProps = {
 };
 
 export const NFTCard: FC<NFTCardProps> = ({
-    nordleNFTData: { tokenId, tokenURI, word },
+    nordleNFTData: { tokenId, tokenURI, word, isSelected, selectToken },
     isMintButton = false,
 }) => {
     const {
@@ -93,7 +93,7 @@ export const NFTCard: FC<NFTCardProps> = ({
                     </>
                 </BasicPopup>
             )}
-            <CardWithShadow animateWhile="hover">
+            <CardWithShadow animateWhile="hover" isSelected={isSelected}>
                 <motion.div
                     variants={cardVariants}
                     initial="initial"
@@ -101,7 +101,9 @@ export const NFTCard: FC<NFTCardProps> = ({
                     className="relative  flex h-96 w-80 cursor-pointer flex-col items-center justify-center"
                     key={tokenId}
                     onClick={
-                        isMintButton ? () => setShowMintPopup(true) : undefined
+                        isMintButton
+                            ? () => setShowMintPopup(true)
+                            : () => selectToken(tokenId)
                     }
                 >
                     {!isMintButton && (
