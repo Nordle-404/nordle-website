@@ -7,148 +7,56 @@ import {
     Theme,
     darkTheme,
     Chain,
+    connectorsForWallets,
 } from '@rainbow-me/rainbowkit';
+import {
+    argentWallet,
+    trustWallet,
+    ledgerWallet,
+} from '@rainbow-me/rainbowkit/wallets';
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 
-const additionalChains: Chain[] = [
-    // {
-    //     id: 1666700000,
-    //     name: 'Harmony testnet Shard 0',
-    //     rpcUrls: { default: 'https://api.s0.b.hmny.io' },
-    //     network: 'harmony',
-    //     iconUrl: 'assets/harmony-one-logo.svg',
-    //     iconBackground: '#fff',
-    //     nativeCurrency: { name: 'ONE', symbol: 'ONE', decimals: 18 as 18 }, // eslint-disable-line
-    //     blockExplorers: {
-    //         default: {
-    //             name: 'Harmony Block Explorer',
-    //             url: 'https://explorer.harmony.one',
-    //         },
-    //     },
-    //     testnet: true,
-    // },
-    // {
-    //     id: 1666600000,
-    //     name: 'Harmony mainnet Shard 0',
-    //     network: 'harmony testnet',
-    //     iconUrl: 'assets/harmony-one-logo.svg',
-    //     rpcUrls: { default: 'https://api.harmony.one' },
-    //     nativeCurrency: { name: 'ONE', symbol: 'ONE', decimals: 18 as 18 }, // eslint-disable-line
-    //     blockExplorers: {
-    //         default: {
-    //             name: 'Harmony Block Explorer',
-    //             url: 'https://explorer.harmony.one',
-    //         },
-    //     },
-    //     testnet: true,
-    // },
-];
-
-const additionalChainIDs = additionalChains.map((c) => c.id);
-
-const { chains, provider, webSocketProvider } = configureChains(
+const { chains, provider } = configureChains(
+    [chain.mainnet, chain.goerli],
     [
-        chain.mainnet,
-        ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true'
-            ? [chain.goerli]
-            : []),
-        ...additionalChains,
-    ],
-    [
-        // alchemyProvider({
-        //     // This is Alchemy's default API key.
-        //     // You can get your own at https://dashboard.alchemyapi.io
-        //     alchemyId: process.env.NEXT_PUBLIC_ALCHEMY_ID,
-        // }),
-        jsonRpcProvider({
-            rpc: (chain) => {
-                if (chain.id in additionalChainIDs)
-                    return { http: chain.rpcUrls.default };
-                else return null;
-            },
+        alchemyProvider({
+            apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID,
         }),
         publicProvider(),
     ]
 );
 
-const { connectors } = getDefaultWallets({
-    appName: 'My RainbowKit App',
+const { wallets } = getDefaultWallets({
+    appName: 'RainbowKit App',
     chains,
 });
+
+const connectors = connectorsForWallets([
+    ...wallets,
+    {
+        groupName: 'Other',
+        wallets: [
+            argentWallet({ chains }),
+            trustWallet({ chains }),
+            ledgerWallet({ chains }),
+        ],
+    },
+]);
 
 const wagmiClient = createClient({
     autoConnect: true,
     connectors,
     provider,
-    webSocketProvider,
 });
-
-const DarkTheme = darkTheme();
-
-const myCustomTheme: Theme = {
-    ...DarkTheme,
-    colors: {
-        ...DarkTheme.colors,
-        // accentColor: '#000',
-    },
-    // colors: {
-    //     accentColor: '...',
-    //     accentColorForeground: '...',
-    //     actionButtonBorder: '...',
-    //     actionButtonBorderMobile: '...',
-    //     actionButtonSecondaryBackground: '...',
-    //     closeButton: '...',
-    //     closeButtonBackground: '...',
-    //     connectButtonBackground: '...',
-    //     connectButtonBackgroundError: '...',
-    //     connectButtonInnerBackground: '...',
-    //     connectButtonText: '...',
-    //     connectButtonTextError: '...',
-    //     connectionIndicator: '...',
-    //     error: '...',
-    //     generalBorder: '...',
-    //     generalBorderDim: '...',
-    //     menuItemBackground: '...',
-    //     modalBackdrop: '...',
-    //     modalBackground: '...',
-    //     modalBorder: '...',
-    //     modalText: '...',
-    //     modalTextDim: '...',
-    //     modalTextSecondary: '...',
-    //     profileAction: '...',
-    //     profileActionHover: '...',
-    //     profileForeground: '...',
-    //     selectedOptionBorder: '...',
-    //     standby: '...',
-    // },
-    // fonts: {
-    //     body: 'Inter',
-    // },
-    // radii: {
-    //     actionButton: '...',
-    //     connectButton: '...',
-    //     menuButton: '...',
-    //     modal: '...',
-    //     modalMobile: '...',
-    // },
-    // shadows: {
-    //     connectButton: '...',
-    //     dialog: '...',
-    //     profileDetailsAction: '...',
-    //     selectedOption: '...',
-    //     selectedWallet: '...',
-    //     walletLogo: '...',
-    // },
-};
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
         <WagmiConfig client={wagmiClient}>
-            <RainbowKitProvider chains={chains} theme={myCustomTheme}>
-                <Component {...pageProps} />;
+            <RainbowKitProvider chains={chains}>
+                <Component {...pageProps} />
             </RainbowKitProvider>
         </WagmiConfig>
     );

@@ -2,20 +2,10 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useConnect } from 'wagmi';
+import { UserNFTs } from '../pageComponents/home/UserNFTs';
+import { NordleNFTContextProvider } from '../contexts/NordleNFTContext';
 
 const Home: NextPage = () => {
-    const { data } = useAccount();
-    const { isConnected } = useConnect();
-
-    const DisplayNameComp = () => {
-        if (isConnected && data) {
-            return <div>Your address is: {data.address}</div>;
-        } else {
-            return <></>;
-        }
-    };
-
     return (
         <div className="flex flex-col h-screen">
             <Head>
@@ -30,15 +20,16 @@ const Home: NextPage = () => {
                 <div>NAME </div>
                 <div>
                     <ConnectButton
-                    // chainStatus="none"
-                    // showBalance={false}
-                    // accountStatus="address"
+                        chainStatus="none"
+                        showBalance={false}
+                        accountStatus="address"
                     />
                 </div>
             </header>
             <main className="flex-grow bg-green-500 p-4">
-                Content
-                <DisplayNameComp />
+                <NordleNFTContextProvider>
+                    <UserNFTs />
+                </NordleNFTContextProvider>
             </main>
             <footer className="p-4 bg-blue-500">Footer</footer>
         </div>
