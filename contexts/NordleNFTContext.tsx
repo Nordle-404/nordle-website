@@ -20,6 +20,8 @@ import { BigNumber } from 'ethers';
 interface NordleNFTContextInterface {
     isLoadingUserTokens: boolean;
     userTokens: NordleNFT[];
+    selectedTokens: number[];
+    setSelectedTokens: Dispatch<SetStateAction<number[]>>;
 }
 
 const NordleNFTContext = createContext<NordleNFTContextInterface | undefined>(
@@ -63,6 +65,8 @@ export const NordleNFTContextProvider = ({
         useState<WagmiContractConfig[]>([]);
     const [userTokens, setUserTokens] = useState<NordleNFT[]>([]);
     const [fetchTokenData, setFetchTokenData] = useState(false);
+
+    const [selectedTokens, setSelectedTokens] = useState<number[]>([]);
 
     const rawWagmiTokenData = useContractReads({
         contracts: wagmiTokenDataContractsInfo,
@@ -141,6 +145,8 @@ export const NordleNFTContextProvider = ({
             value={{
                 isLoadingUserTokens,
                 userTokens,
+                selectedTokens,
+                setSelectedTokens,
             }}
         >
             {children}

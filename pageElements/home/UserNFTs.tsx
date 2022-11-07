@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { useCallback, useState, FC } from 'react';
 import { useContractRead } from 'wagmi';
 import { NORDLE_CONTRACT_ADDRESS } from '../../utils/constants';
 import Nordle from '../../contracts/Nordle.json';
@@ -7,7 +7,21 @@ import Image from 'next/image';
 import { NFTCard } from './NFTCard';
 
 export const UserNFTs: FC = () => {
-    const { isLoadingUserTokens, userTokens } = useNordleNFTContext();
+    const { isLoadingUserTokens, userTokens, selectedTokens, setSelectedTokens } = useNordleNFTContext();
+
+    const [isSelected, setIsSelected] = useState<{ [key: number]: boolean }>({});
+
+    const selectToken = useCallback((tokenId: number) => {
+        if (selectedTokens.includes(tokenId)) {
+            // remove token ID
+            setSelectedTokens(selectedTokens.filter((id) => id != tokenId));
+            setIsSelected({ ...isSelected, [tokenId]: false });
+        } else {
+            // add token ID
+            setSelectedTokens([...selectedTokens, tokenId]);
+            setIsSelected({ ...isSelected, [tokenId]: true });
+        }
+    }, [setSelectedTokens, selectedTokens])
 
     return (
         <div>
@@ -21,6 +35,9 @@ export const UserNFTs: FC = () => {
                             <NFTCard
                                 key={nordleNFTData.tokenId}
                                 {...nordleNFTData}
+                                // comes after the spread
+                                selectToken={selectToken}
+                                isSelected={isSelected[nordleNFTData.tokenId]}
                             />
                         ))}
                     </div>
