@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { Dispatch, FC, useState } from 'react';
 import { CardWithShadow } from '../../components/cards/CardWithShadow';
 import { NordleNFT } from '../../types/Nordle.type';
 import { motion, Variants } from 'framer-motion';
@@ -29,11 +29,15 @@ const mintButtonVariants: Variants = {
 
 type NFTCardProps = {
     nordleNFTData: NordleNFT;
+    isSelected?: boolean;
+    selectToken?: Dispatch.SetStateAction<boolean>;
     isMintButton?: boolean;
 };
 
 export const NFTCard: FC<NFTCardProps> = ({
     nordleNFTData: { tokenId, tokenURI, word },
+    isSelected,
+    selectToken,
     isMintButton = false,
 }) => {
     const {
@@ -64,7 +68,7 @@ export const NFTCard: FC<NFTCardProps> = ({
                                 <a
                                     href={`https://goerli.etherscan.io/tx/${mintTxHash}`}
                                     target="_blank"
-                                    rel="no_referrer"
+                                    rel="noreferrer"
                                     className="font-semibold underline"
                                 >
                                     [{mintTxHash.slice(0, 4)}...
@@ -74,7 +78,7 @@ export const NFTCard: FC<NFTCardProps> = ({
                         )}
                         <motion.button
                             variants={mintButtonVariants}
-                            disabled={!handleMintRandomWord}
+                            disabled={!handleMintRandomWord && !isLoadingMintRandomWord}
                             initial="initial"
                             whileHover="hover"
                             className="w-full bg-off-black py-5 px-10 text-3xl text-off-white"
@@ -85,24 +89,24 @@ export const NFTCard: FC<NFTCardProps> = ({
                     </div>
                 </div>
             )}
-            <CardWithShadow animateWhile="hover"  isSelected={isSelected}>
+            <CardWithShadow animateWhile="hover" isSelected={isSelected}>
                 <div
-                    className="relative  flex h-96 w-80 cursor-pointer flex-col items-center justify-center"
+                    className="relative flex h-96 w-80 cursor-pointer flex-col items-center justify-center"
                     key={tokenId}
                     onClick={
-                        isMintButton ? () => setShowMintPopup(true) : selectToken(tokenId)
+                        isMintButton ? () => setShowMintPopup(true) : () => selectToken(tokenId)
                     }
                 >
                     {!isMintButton && (
                         <motion.img
                             variants={tokenURIVariants}
-                            initial="hidden"
-                            whileHover="visible"
+                            // initial="hidden"
+                            // whileHover="opacity-100"
                             src={tokenURI}
-                            className="absolute h-full w-full opacity-0"
+                            className="absolute h-full w-full opacity-10 hover:opacity-100 transition"
                         />
                     )}
-                    <p className="text-center text-5xl font-bold uppercase underline">
+                    <p className={`text-center text-5xl font-bold uppercase underline ${isSelected ? 'text-pink-500' : ''}`}>
                         {decodeURI(word)}
                     </p>
                 </div>
