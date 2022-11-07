@@ -95,7 +95,17 @@ export const NordleNFTContextProvider = ({
 
     // Once the data is read from the contract, filter out the burned tokens
     useEffect(() => {
-        if (!isLoadingUserTokenIds && rawWagmiAllUserTokenIdsData) {
+        if (
+            !isLoadingUserTokenIds &&
+            rawWagmiAllUserTokenIdsData?.length == 2
+        ) {
+            if (
+                !rawWagmiAllUserTokenIdsData[0] ||
+                !rawWagmiAllUserTokenIdsData[1]
+            ) {
+                setIsLoadingUserTokens(false);
+                return;
+            }
             const allUserTokenIds = (
                 rawWagmiAllUserTokenIdsData[0] as BigNumber[]
             ).map((bnTokenId) => bnTokenId.toNumber());
@@ -183,18 +193,18 @@ export const NordleNFTContextProvider = ({
             {
                 inputs: [
                     {
-                      "internalType": "uint256[]",
-                      "name": "_tokensToCombine",
-                      "type": "uint256[]"
-                    }
+                        internalType: 'uint256[]',
+                        name: '_tokensToCombine',
+                        type: 'uint256[]',
+                    },
                 ],
                 name: 'requestCombine',
                 outputs: [
                     {
-                        "internalType": "string",
-                        "name": "newWord",
-                        "type": "string"
-                    }
+                        internalType: 'string',
+                        name: 'newWord',
+                        type: 'string',
+                    },
                 ],
                 stateMutability: 'nonpayable',
                 type: 'function',
@@ -207,17 +217,17 @@ export const NordleNFTContextProvider = ({
 
     const { write: mintRandomWordWrite, data: mintRandomWordWriteData } =
         useContractWrite(mintRandomWordConfig);
-    
+
     const { write: combineWordsWrite, data: combineWordsWriteData } =
         useContractWrite(combineWordsConfig);
 
     const handleMintRandomWord = useCallback(async () => {
         if (mintRandomWordWrite) mintRandomWordWrite();
-    }, [mintRandomWordWrite])
+    }, [mintRandomWordWrite]);
 
     const handleCombineWords = useCallback(async () => {
         if (combineWordsWrite && selectedTokens.length) combineWordsWrite();
-    }, [combineWordsWrite, selectedTokens])
+    }, [combineWordsWrite, selectedTokens]);
 
     const {
         isLoading: isLoadingMintRandomWord,
@@ -234,12 +244,14 @@ export const NordleNFTContextProvider = ({
     });
 
     useEffect(() => {
-        if (mintRandomWordWriteData?.hash) setMintTxHash(mintRandomWordWriteData.hash);
+        if (mintRandomWordWriteData?.hash)
+            setMintTxHash(mintRandomWordWriteData.hash);
         else setMintTxHash('');
     }, [mintRandomWordWriteData]);
 
     useEffect(() => {
-        if (combineWordsWriteData?.hash) setCombineTxHash(combineWordsWriteData.hash);
+        if (combineWordsWriteData?.hash)
+            setCombineTxHash(combineWordsWriteData.hash);
         else setCombineTxHash('');
     }, [combineWordsWriteData]);
 

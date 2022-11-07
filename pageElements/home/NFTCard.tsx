@@ -1,4 +1,4 @@
-import { Dispatch, FC, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { CardWithShadow } from '../../components/cards/CardWithShadow';
 import { NordleNFT } from '../../types/Nordle.type';
 import { motion, Variants } from 'framer-motion';
@@ -30,7 +30,7 @@ const mintButtonVariants: Variants = {
 type NFTCardProps = {
     nordleNFTData: NordleNFT;
     isSelected?: boolean;
-    selectToken?: Dispatch.SetStateAction<boolean>;
+    selectToken?: Dispatch<SetStateAction<boolean>>;
     isMintButton?: boolean;
 };
 
@@ -78,7 +78,10 @@ export const NFTCard: FC<NFTCardProps> = ({
                         )}
                         <motion.button
                             variants={mintButtonVariants}
-                            disabled={!handleMintRandomWord && !isLoadingMintRandomWord}
+                            disabled={
+                                !handleMintRandomWord &&
+                                !isLoadingMintRandomWord
+                            }
                             initial="initial"
                             whileHover="hover"
                             className="w-full bg-off-black py-5 px-10 text-3xl text-off-white"
@@ -94,7 +97,9 @@ export const NFTCard: FC<NFTCardProps> = ({
                     className="relative flex h-96 w-80 cursor-pointer flex-col items-center justify-center"
                     key={tokenId}
                     onClick={
-                        isMintButton ? () => setShowMintPopup(true) : () => selectToken(tokenId)
+                        isMintButton
+                            ? () => setShowMintPopup(true)
+                            : () => selectToken(tokenId)
                     }
                 >
                     {!isMintButton && (
@@ -103,10 +108,14 @@ export const NFTCard: FC<NFTCardProps> = ({
                             // initial="hidden"
                             // whileHover="opacity-100"
                             src={tokenURI}
-                            className="absolute h-full w-full opacity-10 hover:opacity-100 transition"
+                            className="absolute h-full w-full opacity-10 transition hover:opacity-100"
                         />
                     )}
-                    <p className={`text-center text-5xl font-bold uppercase underline ${isSelected ? 'text-pink-500' : ''}`}>
+                    <p
+                        className={`text-center text-5xl font-bold uppercase underline ${
+                            isSelected ? 'text-pink-500' : ''
+                        }`}
+                    >
                         {decodeURI(word)}
                     </p>
                 </div>
