@@ -8,6 +8,7 @@ type CardWithShadowProps = {
     id?: string;
     backgroundColor?: 'off-white' | 'light-gray';
     animateWhile: 'hover' | 'inView' | 'always';
+    isSelected?: boolean;
     scale?: boolean;
     transition?: Transition;
     shadowSize?: 'large' | 'small';
@@ -19,6 +20,7 @@ export const CardWithShadow: FC<CardWithShadowProps> = ({
     backgroundColor = 'off-white',
     scale = false,
     animateWhile = 'always',
+    isSelected = false,
     transition,
     shadowSize = 'large',
 }) => {
@@ -54,6 +56,8 @@ export const CardWithShadow: FC<CardWithShadowProps> = ({
         },
     };
 
+    const borderColor = isSelected ? "border-pink-300" : "border-off-black"
+
     return (
         <motion.div
             id={id}
@@ -62,7 +66,7 @@ export const CardWithShadow: FC<CardWithShadowProps> = ({
             animate={animateWhile === 'always' ? 'animate' : undefined}
             whileHover={animateWhile === 'hover' ? 'animate' : undefined}
             whileInView={animateWhile === 'inView' ? 'animate' : undefined}
-            className="flex h-fit w-fit flex-col gap-y-5 rounded border-4 border-off-black bg-off-white tablet:border-2 mobile:py-5"
+            className={`flex h-fit w-fit flex-col gap-y-5 rounded border-4 ${borderColor} bg-off-white tablet:border-2 mobile:py-5`}
             style={{
                 backgroundColor: `var(--${backgroundColor})`,
             }}

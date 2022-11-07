@@ -17,3 +17,5 @@ export interface WagmiContractConfig {
     args: any[];
     functionName: string;
 }
+
+export type NordleUserTokens = { [tokenId: string]: NordleNFT }
