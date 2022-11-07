@@ -34,12 +34,19 @@ export const UserNFTs: FC = () => {
                         {userTokens.map((nordleNFTData) => (
                             <NFTCard
                                 key={nordleNFTData.tokenId}
-                                {...nordleNFTData}
-                                // comes after the spread
+                                nordleNFTData={nordleNFTData}
                                 selectToken={selectToken}
                                 isSelected={isSelected[nordleNFTData.tokenId]}
                             />
                         ))}
+                        <NFTCard
+                            isMintButton
+                            nordleNFTData={{
+                                tokenId: -1,
+                                tokenURI: '',
+                                word: 'Mint',
+                            }}
+                        />
                     </div>
                 )}
             </div>
